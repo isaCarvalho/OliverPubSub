@@ -24,6 +24,6 @@ public class Publisher
     @Override
     public String toString()
     {
-        return "Id: " + this.id + "\nNome: " + this.nome;
+        return "\nNome: " + this.nome;
     }
 }

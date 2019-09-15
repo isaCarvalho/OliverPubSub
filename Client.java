@@ -19,7 +19,7 @@ public class Client {
 
             do 
             {
-                System.out.println("Digite a opcao desejada: \n");
+                System.out.println("\nDigite a opcao desejada: \n");
                 System.out.println("1 - Cadastrar um publisher;");
                 System.out.println("2 - Cadastrar um curso;");
                 System.out.println("3 - Ver todos os publishers;");
@@ -39,17 +39,16 @@ public class Client {
                         break;
 
                     case 3:
-                        /*local = stub.imprimirPublishers();
-                        System.out.println(local);
-                        local = "";*/
-                        Thread t1 = new Thread(new ClientThread(host));
+                        Thread t1 = new Thread(new ClientThread(host, "Publishers"));
                         t1.start();                        
                         break;
 
                     case 4:
-                        local = stub.imprimirCursos();
-                        System.out.println(local);
-                        local = "";
+                        Thread t2 = new Thread(new ClientThread(host, "Cursos"));
+                        t2.start();
+                        break;
+
+                    default:
                         break;
                 }
             
@@ -93,13 +92,16 @@ public class Client {
             System.out.println("Digite o titulo do curso: ");
             String titulo = c.nextLine();
 
+            System.out.println("Digite a palavra chave: ");
+            String palavra = c.nextLine();
+
             System.out.println("Digite o id do curso: ");
-            int id = c.nextInt();
+            int id = c.nextInt();            
 
             System.out.println("Digite o id do publicador do curso: ");
             int id_publisher = c.nextInt();
 
-            return stub.cadastrarCurso(id, titulo, id_publisher);
+            return stub.cadastrarCurso(id, titulo, id_publisher, palavra);
         }
         catch (Exception e)
         {

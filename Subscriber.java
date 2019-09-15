@@ -1,7 +1,10 @@
+import java.util.HashMap;
+
 public class Subscriber
 {
     private final int id;
     private String email;
+    private HashMap<Integer, Curso> cursos = new HashMap<>();
 
     public Subscriber(int id, String email)
     {
@@ -19,6 +22,16 @@ public class Subscriber
 
     public String getEmail() {
         return email;
+    }
+
+    public void addCurso(Curso curso)
+    {
+        this.cursos.put(curso.getId(), curso);
+    }
+
+    public void removerCurso(int id)
+    {
+        this.cursos.remove(id);
     }
 
     @Override

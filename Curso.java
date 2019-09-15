@@ -4,12 +4,14 @@ public class Curso
     private String titulo;
     private String descricao;
     private int id_publisher;
+    private String palavra_chave;
 
-    public Curso(int id, String titulo, int id_publisher)
+    public Curso(int id, String titulo, int id_publisher, String palavra_chave)
     {
         this.id = id;
         this.titulo = titulo;
         this.id_publisher = id_publisher;
+        this.palavra_chave = palavra_chave;
     }
 
     public int getId() {
@@ -40,8 +42,18 @@ public class Curso
         return id_publisher;
     }
 
+    public void setPalavraChave(String palavra_chave)
+    {
+        this.palavra_chave = palavra_chave;
+    }
+
+    public String getPalavraChave()
+    {
+        return this.palavra_chave;
+    }
+
     @Override
     public String toString() {
-        return "O curso " + this.titulo + " - " + this.id + " foi criado por " + this.id_publisher;
+        return  "\nId: " + this.id + "\nTitulo: " + this.titulo + "\nPalavra-chave: " + this.palavra_chave;
     }
 }

@@ -10,6 +10,7 @@ public class Server implements Oliver, Remote
     private HashMap<Integer, Publisher> publishers = new HashMap<>();
     private HashMap<Integer, Subscriber> subscribers = new HashMap<>();
     private HashMap<Integer, Curso> cursos = new HashMap<>();
+    private HashMap<Integer, String> palavras_chave = new HashMap<>();
 
     public Server() { };
 
@@ -38,13 +39,46 @@ public class Server implements Oliver, Remote
     }
 
     @Override
-    public String cadastrarCurso(int id, String titulo, int id_publisher) throws RemoteException
+    public String adicionarCurso(int id_subscriber) throws RemoteException
+    {
+        Subscriber sub = this.subscribers.get(id_subscriber);
+
+        if (sub != null)
+        {
+            // VER COMO VAI IMPRIMIR OS CURSOS AQUI
+        }
+
+        return "Não foi possivel adicionar o curso! Subscriber inexistente!";
+    }
+
+    @Override
+    public String alterarTituloCurso(int id, String titulo) throws RemoteException
+    {
+        // TERMINAR AQUI TBM E COLOCAR NO PUBLISHERS
+    }
+
+    @Override
+    public String removerCurso(int id_subscriber) throws RemoteException
+    {
+        Subscriber sub = this.subscribers.get(id_subscriber);
+        
+        if (sub != null)
+        {
+            // VER COMO VAI IMPRIMIR AQUI TBM
+        }
+
+        return "Não foi possivel remover o curso! Subscriber inexistente!";
+    }
+
+    @Override
+    public String cadastrarCurso(int id, String titulo, int id_publisher, String palavra_chave) throws RemoteException
     {
         if (this.publishers.get(id_publisher) != null) 
         {
-            Curso novo = new Curso(id, titulo, id_publisher);
+            Curso novo = new Curso(id, titulo, id_publisher, palavra_chave);
 
             this.cursos.put(id, novo);
+            this.palavras_chave.put(id, novo.getPalavraChave());
 
             return (this.cursos.get(id)).toString();
         }
@@ -52,17 +86,15 @@ public class Server implements Oliver, Remote
         return "Nao foi possivel cadastrar o curso!";
     }
 
-    public String imprimirPublishers() throws RemoteException
+    public synchronized String imprimirPublishers() throws RemoteException
     {
-        String resposta = publishers.values().toString();
-        //publishers.forEach((key, value) -> resposta = resposta + value.toString() + "\n");
-        return resposta;
+        String resposta = publishers.values().toString(); 
+        return resposta; 
     }
 
-    public String imprimirCursos() throws RemoteException
+    public synchronized String imprimirCursos() throws RemoteException
     {
         String resposta = cursos.values().toString();
-        //cursos.forEach((key, value) -> resposta = resposta + value.toString() + "\n");
         return resposta;
     }
 
@@ -72,7 +104,6 @@ public class Server implements Oliver, Remote
             Server obj = new Server();
             Oliver stub = (Oliver) UnicastRemoteObject.exportObject(obj, 0);
 
-            // Bind the remote object's stub in the registry
             Registry registry = LocateRegistry.getRegistry();
             registry.bind("Oliver", stub);
 
