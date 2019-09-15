@@ -114,6 +114,24 @@ public class Server implements Oliver, Remote
         return "Nao foi possivel cadastrar o curso!";
     }
 
+    public String listarMensagens(int id_subscriber) throws RemoteException
+    {
+        Subscriber sub = this.subscribers.get(id_subscriber);
+        String resposta = "";
+
+        if (sub != null)
+        {
+            ArrayList<String> mensagens = new ArrayList<String>((sub.getCaixaDeEntrada()).values());
+
+            for (String mensagem : mensagens)
+                resposta = resposta + mensagem;
+
+            return resposta;
+        }
+
+        return "Sub nao existe!";
+    }
+
     public synchronized String imprimirPublishers() throws RemoteException
     {
         String resposta = publishers.values().toString(); 
@@ -124,6 +142,26 @@ public class Server implements Oliver, Remote
     {
         String resposta = cursos.values().toString();
         return resposta;
+    }
+
+    public String post(int id_curso, String mensagem)
+    {
+        Curso curso = this.cursos.get(id_curso);
+        if (curso != null)
+        {
+            curso.addMensagem(mensagem);
+            this.cursos.replace(id_curso, curso);
+
+            for (Subscriber sub : this.subscribers.values())
+            {
+                for (Curso curso2: sub.getCursos().values())
+                {
+                    if (curso2.getId() == id_curso)
+                        sub.addMensagem(id_curso, mensagem);
+                }
+            }
+        }
+        return "Curso inexistente!";
     }
 
     public static void main(String args[])

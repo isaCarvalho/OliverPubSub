@@ -24,7 +24,8 @@ public class Client {
                 System.out.println("2 - Cadastrar um curso;");
                 System.out.println("3 - Ver todos os publishers;");
                 System.out.println("4 - Ver todos os cursos;");
-                System.out.println("5 - Sair");
+                System.out.println("5 - Enviar mensagem para um curso;");
+                System.out.println("6 - Sair");
 
                 op = s.nextInt();
                 String local;
@@ -48,16 +49,39 @@ public class Client {
                         t2.start();
                         break;
 
+                    case 5:
+                        enviarMensagem(stub);
+                        break;
+
                     default:
                         break;
                 }
             
-            } while (op != 5);
+            } while (op != 6);
         
         }
         catch (Exception e)
         {
             System.err.println("Client exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static void enviarMensagem(Oliver stub)
+    {
+        try {
+            Scanner s = new Scanner(System.in);
+
+            System.out.println("\nDigite o id do curso: ");
+            int id_curso = s.nextInt();
+
+            System.out.println("Digite a mensagem: ");
+            String mensagem = s.nextLine();
+
+            System.out.println(stub.post(id_curso, mensagem));
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

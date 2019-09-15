@@ -24,4 +24,8 @@ public interface Oliver extends Remote
 
     public String imprimirCursos() throws RemoteException;
 
+    public String post(int id_curso, String mensagem) throws RemoteException;
+
+    public String listarMensagens(int id_subscriber) throws RemoteException;
+
 }

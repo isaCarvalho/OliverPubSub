@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Curso
 {
     private final int id;
@@ -5,6 +7,7 @@ public class Curso
     private String descricao;
     private int id_publisher;
     private String palavra_chave;
+    private ArrayList<String> mensagens;
 
     public Curso(int id, String titulo, int id_publisher, String palavra_chave)
     {
@@ -12,6 +15,11 @@ public class Curso
         this.titulo = titulo;
         this.id_publisher = id_publisher;
         this.palavra_chave = palavra_chave;
+    }
+
+    public void addMensagem(String mensagem)
+    {
+        this.mensagens.add(mensagem);
     }
 
     public int getId() {

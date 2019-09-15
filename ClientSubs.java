@@ -97,6 +97,24 @@ public class ClientSubs {
         }
     }
 
+    public static void listarMensagens(Oliver stub)
+    {
+        try
+        {
+            Scanner s = new Scanner(System.in);
+
+            System.out.println("\nDigite seu id: ");
+            int id = s.nextInt();
+            
+            System.out.println(stub.listarMensagens(id));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Listar mensagens exception: " + e.toString());
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
 
         String host = (args.length < 1) ? null : args[0];
@@ -118,7 +136,8 @@ public class ClientSubs {
                 System.out.println("2 - Se inscrever em um curso");
                 System.out.println("3 - Remover um curso");
                 System.out.println("4 - Listar todos os meus cursos");
-                System.out.println("5 - Sair");
+                System.out.println("5 - Visualizar caixa de entrada");
+                System.out.println("6 - Sair");
 
                 Scanner s = new Scanner(System.in);
                 op = s.nextInt();
@@ -141,11 +160,15 @@ public class ClientSubs {
                         imprimirMeusCursos(stub);
                         break;
 
+                    case 5:
+                        listarMensagens(stub);
+                        break;
+
                     default:
                         break;
                 }
 
-            } while (op != 5);
+            } while (op != 6);
             
         }
         catch (Exception e)

@@ -5,6 +5,7 @@ public class Subscriber
     private final int id;
     private String email;
     private HashMap<Integer, Curso> cursos = new HashMap<>();
+    private HashMap<Integer, String> caixaDeEntrada = new HashMap<>();
 
     public Subscriber(int id, String email)
     {
@@ -14,6 +15,11 @@ public class Subscriber
 
     public int getId() {
         return id;
+    }
+
+    public HashMap<Integer, String> getCaixaDeEntrada()
+    {
+        return this.caixaDeEntrada;
     }
 
     public void setEmail(String email) {
@@ -37,6 +43,11 @@ public class Subscriber
     public HashMap<Integer, Curso> getCursos()
     {
         return this.cursos;
+    }
+
+    public void addMensagem(int id_curso, String mensagem)
+    {
+        this.caixaDeEntrada.put(id_curso, mensagem);
     }
 
     public void imprimirCursos()
