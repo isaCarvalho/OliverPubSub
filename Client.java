@@ -67,7 +67,7 @@ public class Client {
         try {
             Scanner s = new Scanner(System.in);
 
-            System.out.println("Digite seu nome: ");
+            System.out.println("\nDigite seu nome: ");
             String nome = s.nextLine();
 
             System.out.println("Digite seu id: ");
@@ -89,7 +89,7 @@ public class Client {
         try {
             Scanner c = new Scanner(System.in);
 
-            System.out.println("Digite o titulo do curso: ");
+            System.out.println("\nDigite o titulo do curso: ");
             String titulo = c.nextLine();
 
             System.out.println("Digite a palavra chave: ");

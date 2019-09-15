@@ -4,6 +4,7 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Server implements Oliver, Remote
 {
@@ -39,15 +40,22 @@ public class Server implements Oliver, Remote
     }
 
     @Override
-    public String adicionarCurso(int id_subscriber) throws RemoteException
+    public String adicionarCurso(int id_subscriber, int id_curso) throws RemoteException
     {
         Subscriber sub = this.subscribers.get(id_subscriber);
 
         if (sub != null)
         {
-            // VER COMO VAI IMPRIMIR OS CURSOS AQUI
-        }
+            Curso curso = this.cursos.get(id_curso);
+            if (curso != null)
+            {
+                sub.addCurso(curso);
+                this.subscribers.replace(id_subscriber, sub);
 
+                return "Curso adicionado com sucesso!";
+            }
+            return "Nao foi possivel adicionar o curso! Curso inexistente!";
+        }
         return "Não foi possivel adicionar o curso! Subscriber inexistente!";
     }
 
@@ -55,19 +63,39 @@ public class Server implements Oliver, Remote
     public String alterarTituloCurso(int id, String titulo) throws RemoteException
     {
         // TERMINAR AQUI TBM E COLOCAR NO PUBLISHERS
+        return "nao";
     }
 
     @Override
-    public String removerCurso(int id_subscriber) throws RemoteException
+    public String removerCurso(int id_subscriber, int id_curso) throws RemoteException
     {
         Subscriber sub = this.subscribers.get(id_subscriber);
         
         if (sub != null)
         {
-            // VER COMO VAI IMPRIMIR AQUI TBM
+            sub.removerCurso(id_curso);
+            this.subscribers.replace(id_subscriber, sub);
+
+            return "Curso removido com sucesso!";
         }
 
-        return "Não foi possivel remover o curso! Subscriber inexistente!";
+        return "Nao foi possivel remover o curso! Subscriber inexistente!";
+    }
+
+    @Override
+    public String listarCursosPorId(int id_subscriber) throws RemoteException
+    {
+        Subscriber sub = subscribers.get(id_subscriber);
+        ArrayList<Curso> cursos = new ArrayList<Curso>((sub.getCursos()).values());
+
+        String resposta = "";
+
+        for (Curso curso : cursos)
+        {
+            resposta += "\n" + curso.toString();
+        }
+
+        return resposta;
     }
 
     @Override

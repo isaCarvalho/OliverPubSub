@@ -34,6 +34,16 @@ public class Subscriber
         this.cursos.remove(id);
     }
 
+    public HashMap<Integer, Curso> getCursos()
+    {
+        return this.cursos;
+    }
+
+    public void imprimirCursos()
+    {
+        this.cursos.values().toString();
+    }
+
     @Override
     public String toString()
     {
