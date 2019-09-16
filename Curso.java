@@ -1,13 +1,16 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Curso
+
+public class Curso implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private final int id;
     private String titulo;
     private String descricao;
     private int id_publisher;
     private String palavra_chave;
-    private ArrayList<String> mensagens;
+    private ArrayList<String> mensagens = new ArrayList<>();
 
     public Curso(int id, String titulo, int id_publisher, String palavra_chave)
     {

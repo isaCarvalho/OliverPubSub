@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.Remote;
-import java.util.HashMap;
 
 public interface Oliver extends Remote
 {

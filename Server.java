@@ -12,8 +12,21 @@ public class Server implements Oliver, Remote
     private HashMap<Integer, Subscriber> subscribers = new HashMap<>();
     private HashMap<Integer, Curso> cursos = new HashMap<>();
     private HashMap<Integer, String> palavras_chave = new HashMap<>();
+    private Dodger subRemoto;
 
     public Server() { };
+
+    private void alive(){
+        try
+        {
+            Registry registry = LocateRegistry.getRegistry();
+            this.subRemoto = (Dodger) registry.lookup("Dodger");
+        }
+        catch(Exception e)
+        {
+            System.out.println("no");
+        }
+    }
 
     @Override
     public String helloOliver(String teste) throws RemoteException 
@@ -33,9 +46,12 @@ public class Server implements Oliver, Remote
     @Override
     public String cadastrarSubscriber(int id, String email) throws RemoteException 
     {
+        
+        this.alive();
+
         Subscriber novo = new Subscriber(id, email);
         this.subscribers.put(id, novo);
-
+                
         return (this.subscribers.get(id)).toString();
     }
 
@@ -154,18 +170,32 @@ public class Server implements Oliver, Remote
 
             for (Subscriber sub : this.subscribers.values())
             {
-                for (Curso curso2: sub.getCursos().values())
+                for (Curso curso2: (sub.getCursos()).values())
                 {
                     if (curso2.getId() == id_curso)
+                    {
                         sub.addMensagem(id_curso, mensagem);
+                        try 
+                        {
+                            subRemoto.listarMensagens(sub);
+                        }
+                        catch (Exception e)
+                        {
+                            System.err.println("Deu um errinho na mensagem nene");   
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
+
+            return "Mensagem enviada com sucesso!";
         }
         return "Curso inexistente!";
     }
 
     public static void main(String args[])
     {
+        //String host = (args.length < 1) ? null : args[0];
         try {
             Server obj = new Server();
             Oliver stub = (Oliver) UnicastRemoteObject.exportObject(obj, 0);
@@ -173,6 +203,8 @@ public class Server implements Oliver, Remote
             Registry registry = LocateRegistry.getRegistry();
             registry.bind("Oliver", stub);
 
+            //registry = LocateRegistry.getRegistry(host);
+         
             System.err.println("Server ready");
         }
         catch (Exception e)

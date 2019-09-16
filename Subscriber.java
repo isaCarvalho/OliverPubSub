@@ -1,11 +1,13 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Subscriber
+public class Subscriber implements Serializable
 {
     private final int id;
     private String email;
     private HashMap<Integer, Curso> cursos = new HashMap<>();
     private HashMap<Integer, String> caixaDeEntrada = new HashMap<>();
+    private static final long serialVersionUID = 1L;
 
     public Subscriber(int id, String email)
     {

@@ -13,7 +13,7 @@ public class Client {
         {
             Registry registry = LocateRegistry.getRegistry(host);
             Oliver stub = (Oliver) registry.lookup("Oliver");
-
+            
             int op = 0;
             Scanner s = new Scanner(System.in);
 
@@ -28,7 +28,7 @@ public class Client {
                 System.out.println("6 - Sair");
 
                 op = s.nextInt();
-                String local;
+                
                 switch(op)
                 {
                     case 1:
@@ -75,8 +75,9 @@ public class Client {
             System.out.println("\nDigite o id do curso: ");
             int id_curso = s.nextInt();
 
+            Scanner x = new Scanner(System.in);
             System.out.println("Digite a mensagem: ");
-            String mensagem = s.nextLine();
+            String mensagem = x.nextLine();
 
             System.out.println(stub.post(id_curso, mensagem));
         }
