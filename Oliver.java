@@ -17,8 +17,6 @@ public interface Oliver extends Remote
 
     public String listarCursosPorId(int id_subscriber) throws RemoteException;
 
-    public String alterarTituloCurso(int id, String titulo) throws RemoteException;
-
     public String cadastrarCurso(int id, String titulo, int id_publisher, String palavra_chave) throws RemoteException;
 
     public String imprimirCursos() throws RemoteException;

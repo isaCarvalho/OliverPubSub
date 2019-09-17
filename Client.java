@@ -77,12 +77,14 @@ public class Client {
 
             Scanner x = new Scanner(System.in);
             System.out.println("Digite a mensagem: ");
+            
             String mensagem = x.nextLine();
 
             System.out.println(stub.post(id_curso, mensagem));
         }
         catch (Exception e)
         {
+            System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
     }

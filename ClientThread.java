@@ -20,22 +20,15 @@ public class ClientThread implements Runnable
             Registry registry = LocateRegistry.getRegistry(this.host);
             Oliver stub = (Oliver) registry.lookup("Oliver");
 
-            String local = "Chegou do servidor: \n";
-
             if (this.metodo == "Publishers")
-            {
-                local = local + stub.imprimirPublishers();
-                System.out.println(local);
-            }
+                System.out.println(stub.imprimirPublishers());
+            
             if (this.metodo == "Cursos")
-            {
-                local = local + stub.imprimirCursos();
-                System.out.println(local);
-            }
+                System.out.println(stub.imprimirCursos());
         }
         catch (Exception e)
         {
-            System.err.println("Client exception: " + e.toString());
+            System.err.println("ClientThread exception: " + e.toString());
             e.printStackTrace();
         }
     }

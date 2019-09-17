@@ -65,6 +65,6 @@ public class Curso implements Serializable
 
     @Override
     public String toString() {
-        return  "\nId: " + this.id + "\nTitulo: " + this.titulo + "\nPalavra-chave: " + this.palavra_chave;
+        return  "Id: " + this.id + "\nTitulo: " + this.titulo + "\nPalavra-chave: " + this.palavra_chave;
     }
 }

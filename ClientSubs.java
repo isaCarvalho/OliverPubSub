@@ -19,8 +19,7 @@ public class ClientSubs {
             System.out.println("Digite seu id: ");
             int id = s.nextInt();
 
-            String response = stub.cadastrarSubscriber(id, email);
-            System.out.println("response: " + response);   
+            System.out.println("\n" + stub.cadastrarSubscriber(id, email));   
         }
         catch(Exception e)
         {
@@ -35,17 +34,16 @@ public class ClientSubs {
         {
             Scanner s = new Scanner(System.in);
 
-            System.out.println("\nDigite o seu id:");
+            System.out.println("Digite o seu id:\n");
             int id_subscriber = s.nextInt();
 
             Thread t1 = new Thread(new ClientThread(host, "Cursos"));
             t1.start(); 
 
-            System.out.println("\nDigite o id do curso a ser adicionado:");
+            System.out.println("Digite o id do curso a ser adicionado:\n");
             int id_curso = s.nextInt();
 
-            String response = stub.adicionarCurso(id_subscriber, id_curso);
-            System.out.println("response: " + response);
+            System.out.println(stub.adicionarCurso(id_subscriber, id_curso) + "\n");
         }
         catch(Exception e)
         {

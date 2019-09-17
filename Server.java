@@ -4,7 +4,7 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.Collection;
 
 public class Server implements Oliver, Remote
 {
@@ -14,18 +14,25 @@ public class Server implements Oliver, Remote
     private HashMap<Integer, String> palavras_chave = new HashMap<>();
     private Dodger subRemoto;
 
-    public Server() { };
+    public Server() {
+    };
 
-    private void alive(){
-        try
-        {
+    private void alive() {
+        try {
             Registry registry = LocateRegistry.getRegistry();
             this.subRemoto = (Dodger) registry.lookup("Dodger");
+        } catch (Exception e) {
+            System.err.println("Server exception: " + e.toString());
         }
-        catch(Exception e)
-        {
-            System.out.println("no");
-        }
+    }
+
+    private String parseCollection(Collection values) {
+
+        String resposta = "";
+        for (Object value: values)
+            resposta += '\n' + value.toString();
+
+        return resposta;
     }
 
     @Override
@@ -46,7 +53,6 @@ public class Server implements Oliver, Remote
     @Override
     public String cadastrarSubscriber(int id, String email) throws RemoteException 
     {
-        
         this.alive();
 
         Subscriber novo = new Subscriber(id, email);
@@ -76,13 +82,6 @@ public class Server implements Oliver, Remote
     }
 
     @Override
-    public String alterarTituloCurso(int id, String titulo) throws RemoteException
-    {
-        // TERMINAR AQUI TBM E COLOCAR NO PUBLISHERS
-        return "nao";
-    }
-
-    @Override
     public String removerCurso(int id_subscriber, int id_curso) throws RemoteException
     {
         Subscriber sub = this.subscribers.get(id_subscriber);
@@ -102,16 +101,8 @@ public class Server implements Oliver, Remote
     public String listarCursosPorId(int id_subscriber) throws RemoteException
     {
         Subscriber sub = subscribers.get(id_subscriber);
-        ArrayList<Curso> cursos = new ArrayList<Curso>((sub.getCursos()).values());
 
-        String resposta = "";
-
-        for (Curso curso : cursos)
-        {
-            resposta += "\n" + curso.toString();
-        }
-
-        return resposta;
+        return parseCollection((sub.getCursos()).values());
     }
 
     @Override
@@ -133,31 +124,21 @@ public class Server implements Oliver, Remote
     public String listarMensagens(int id_subscriber) throws RemoteException
     {
         Subscriber sub = this.subscribers.get(id_subscriber);
-        String resposta = "";
 
         if (sub != null)
-        {
-            ArrayList<String> mensagens = new ArrayList<String>((sub.getCaixaDeEntrada()).values());
-
-            for (String mensagem : mensagens)
-                resposta = resposta + mensagem;
-
-            return resposta;
-        }
-
+            return parseCollection((sub.getCaixaDeEntrada()).values());
+        
         return "Sub nao existe!";
     }
 
     public synchronized String imprimirPublishers() throws RemoteException
     {
-        String resposta = publishers.values().toString(); 
-        return resposta; 
+        return parseCollection(publishers.values()); 
     }
 
     public synchronized String imprimirCursos() throws RemoteException
     {
-        String resposta = cursos.values().toString();
-        return resposta;
+        return parseCollection(cursos.values());
     }
 
     public String post(int id_curso, String mensagem)
@@ -181,8 +162,7 @@ public class Server implements Oliver, Remote
                         }
                         catch (Exception e)
                         {
-                            System.err.println("Deu um errinho na mensagem nene");   
-                            e.printStackTrace();
+                            System.err.println("Server exception: " + e.toString());
                         }
                     }
                 }
@@ -195,15 +175,12 @@ public class Server implements Oliver, Remote
 
     public static void main(String args[])
     {
-        //String host = (args.length < 1) ? null : args[0];
         try {
             Server obj = new Server();
             Oliver stub = (Oliver) UnicastRemoteObject.exportObject(obj, 0);
 
             Registry registry = LocateRegistry.getRegistry();
             registry.bind("Oliver", stub);
-
-            //registry = LocateRegistry.getRegistry(host);
          
             System.err.println("Server ready");
         }

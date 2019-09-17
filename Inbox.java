@@ -10,7 +10,9 @@ public class Inbox implements Dodger, Remote
 
     public void listarMensagens(Subscriber remetente) throws RemoteException
     {
-        System.out.println((remetente.getCaixaDeEntrada()).values().toString());
+        System.out.println("\n" + remetente.getEmail());    
+        for (String value : (remetente.getCaixaDeEntrada()).values())
+            System.out.println(value);
     }
 
     public static void main(String args[])
@@ -23,8 +25,8 @@ public class Inbox implements Dodger, Remote
 
             Dodger dstub = (Dodger) UnicastRemoteObject.exportObject(dodger, 0);
             registry.bind("Dodger", dstub);
-            
-            System.out.println("Inbox rodando\n");
+
+            System.out.println("Inbox is ready!\n");            
         }
         catch(Exception e)
         {

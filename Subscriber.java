@@ -60,6 +60,6 @@ public class Subscriber implements Serializable
     @Override
     public String toString()
     {
-        return "\nId: " + this.id + "\nEmail: " + this.email;
+        return "Id: " + this.id + "\nEmail: " + this.email;
     }
 }
